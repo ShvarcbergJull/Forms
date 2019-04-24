@@ -23,7 +23,7 @@ if (!empty($_POST))
 
 	if ($error)
 	{
-		$contents = '<?php' . "\n"   
+		/*$contents = '<?php' . "\n"   
 		    . 'return'
 		    . var_export([
 		        'name' => $name,
@@ -31,13 +31,19 @@ if (!empty($_POST))
 		        'email' => $email,
 		        'topic' => $topic, 
 		        'pay' => $pay, 
-		    ], true);
+		    ], true);*/
 
-		$filename = date('Y-m-d-H-i-s') . '-' . rand(010, 99) . '.txt';
+		$contents = $name."|".$lastname."|".$email."|".$topic."|".$pay."|".date('Y-m-d-H-i-s')."|".$_SERVER['REMOTE_ADDR']."|"."n";
+
+		//$filename = date('Y-m-d-H-i-s') . '-' . rand(010, 99) . '.txt';
 
 		//mkdir($filename, 0777, true);
 
-		file_put_contents("formfile\\".$filename, $contents);
+		//file_put_contents("formfile\\".$filename, $contents);
+
+		$fs = fopen('formfile/data.txt', 'a+');
+		fwrite($fs, $contents."\n");
+		fclose($fs);
 
 		header('Location: form.php');
 		exit;
@@ -63,7 +69,7 @@ if (!empty($_POST))
 		
 		<p>Выберете тематику конференции</p>
 		<p>
-		<select name="Topic"> 
+		<select name="topic"> 
 			<optgroup label="Тема"> 
 				<option value="bus" name="bus">Бизнес</option> 
 				<option value="tex" name="tex">Технологии</option>
