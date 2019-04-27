@@ -5,7 +5,7 @@
 </head>
 <body>
 	<?php 
-	error_reporting(0);
+	//error_reporting(0);
 	include "script.php";
 	if(empty($_POST['f'])){ 
 		echo ("вы ничего не выбрали"); 
@@ -14,23 +14,18 @@
 		$af=$_POST['f']; 
 		$j=count($af); 
 		echo "<p>Файлы: </p>";
-		for ($i=0;$i<$j;$i++){ 
-			if(!empty($af[$i])) 
-			{
-				if (substr($af[$i], -3) == "txt")
-				{
-					echo ($af[$i]."-удаление...\n"); 
-					unlink("formfile/".$af[$i]);
-				}
-				else
-				{
-					echo ($af[$i]."-этот файл не может быть удалён\n");
-				}
-			}
+		for ($i = 0;$i < $j;$i++)
+		{
+			str_replace([":", "/"], ["", "	"], $af[$i]);
+			echo $af[$i]."-удаление...\n";
 		} 
-		if (check($af))
+		if (delt($af))
 		{
 	 		echo "<p><b>Файлы успешно удалены!</b></p>";
+	 	}
+	 	else
+	 	{
+	 		echo "<p><b>Некоторые файлы не были удалены</b></p>";
 	 	}
 	 }
 ?>
