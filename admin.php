@@ -7,16 +7,21 @@
 <body> 
 <h2 align="center">Файлы: </h2>
 <?php 
-	//include "del.php";
-	$filelist = glob("formfile/*.txt"); 
-	$i=0; 
+$fd = fopen('formfile/data.txt', 'r+');
 ?> 
 <form action="del.php" method="POST"> 
-<?php 
-	foreach ($filelist as $filename){ 
-		$i++; 
-		echo "<input type='checkbox' name='f[]' value=".substr($filename, 9).">".substr($filename, 9)."<br>"; 
-	} 
+<?php
+while (!feof($fd))
+{
+	$ft = htmlentities(fgets($fd));
+	$str = array();	
+	$str = explode("|", trim($ft));
+	if (!empty($str[0]))
+	{
+		if (trim($str[8]) === "n")
+			echo "<input type='checkbox' name='f[]' value=".$str[6].">".$str[6]."<br>";
+	}
+}
 ?> 
 <p><input type="submit" value="Удалить данные"></p> 
 
