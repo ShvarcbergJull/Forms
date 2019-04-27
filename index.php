@@ -1,6 +1,5 @@
 <?php
 error_reporting(0);
-//$_SERVER(__DIR__);
 $error = array(
 );
 
@@ -12,6 +11,7 @@ if (!empty($_POST))
 	$phone = isset($_POST['phone']) ? trim($_POST['phone']) : null;
 	$topic = isset($_POST['topic']) ? trim($_POST['topic']) : null;
 	$pay = isset($_POST['pay']) ? trim($_POST['pay']) : null;
+	$jel = isset($_POST['jel']) ? 'yes' : 'no';
 
 	foreach (['name', 'lastname', 'email', 'phone', 'topic', 'pay'] as $key) 
 	{
@@ -21,33 +21,17 @@ if (!empty($_POST))
 		}
 	}
 
-	if ($error)
+	if (empty($error))
 	{
-		/*$contents = '<?php' . "\n"   
-		    . 'return'
-		    . var_export([
-		        'name' => $name,
-		        'lastname' => $lastname,
-		        'email' => $email,
-		        'topic' => $topic, 
-		        'pay' => $pay, 
-		    ], true);*/
-
-		$contents = $name."|".$lastname."|".$email."|".$topic."|".$pay."|".date('Y-m-d-H-i-s')."|".$_SERVER['REMOTE_ADDR']."|"."n";
-
-		//$filename = date('Y-m-d-H-i-s') . '-' . rand(010, 99) . '.txt';
-
-		//mkdir($filename, 0777, true);
-
-		//file_put_contents("formfile\\".$filename, $contents);
-
-		$fs = fopen('formfile/data.txt', 'a+');
-		fwrite($fs, $contents."\n");
-		fclose($fs);
+		$contents = $name."|".$lastname."|".$email."|".$topic."|".$pay."|".$jel."|".date('Y-m-d-H-i-s')."|".$_SERVER['REMOTE_ADDR']."|"."n"."\n";
+		
+		file_put_contents("formfile/data.txt", $contents, FILE_APPEND);
 
 		header('Location: form.php');
 		exit;
 	}
+	else
+		var_dump($error);
 }
 ?>
 
