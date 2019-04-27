@@ -1,19 +1,25 @@
 <?php
-function check($af)
+
+function delt($af)
 {
-	$filelist = glob("formfile/*.txt");
+	$filelist = file_get_contents("formfile/data.txt");
+	$filelist = explode("\n", $filelist);
 	$i = 0;
-	foreach ($filelist as $filename) {
-		if (is_file("formfile/".$af[$filename]))
-		{
-			$i++;
+	foreach ($af as $j) {
+		foreach ($filelist as $key => $values) {
+			$str = explode("|", $values);
+			if ($str[6] == $j)
+			{
+				$str[8] = "y";
+				$filelist[$key] = implode("|", $str);
+				$i++;
+				break;
+			}
 		}
 	}
-
-	if ($i == 0)
-	{
+	$filelist = implode("\n", $filelist);
+	file_put_contents("formfile/data.txt", $filelist);
+	if ($i === count($af))
 		return true;
-	}
-
 	return false;
 }
